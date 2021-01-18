@@ -350,15 +350,16 @@
 
 > 上传系统镜像
 
-    [root@node3 kubevirt]# virtctl image-upload dv cirros-vm-disk --size=102400Mi --image-path=/cloud/kubevirt/CentOS-7-x86_64-GenericCloud-2009.qcow2 --uploadproxy-url=https://10.233.20.73:443 --insecure
-    Using existing PVC default/cirros-vm-disk
+    [root@node3 netdata]# virtctl image-upload pvc centos-vm-disk --size=10240Mi --image-path=/cloud/kubevirt/CentOS-7-x86_64-GenericCloud-2009.qcow2 --uploadproxy-url=https://10.233.20.73:443 --insecure
+    Using existing PVC default/centos-vm-disk
     Uploading data to https://10.233.20.73:443
     
-     847.81 MiB / 847.81 MiB [===========================================================================================================] 100.00% 2s
+     847.81 MiB / 847.81 MiB [=====================================================================================================] 100.00% 3s
     
     Uploading data completed successfully, waiting for processing to complete, you can hit ctrl-c without interrupting the progress
     Processing completed successfully
     Uploading /cloud/kubevirt/CentOS-7-x86_64-GenericCloud-2009.qcow2 completed successfully
+    You have new mail in /var/spool/mail/root
 
 > 创建虚拟机
 
@@ -371,7 +372,7 @@
     apiVersion: kubevirt.io/v1alpha3
     kind: VirtualMachineInstance
     metadata:
-      name: centos7-vm2
+      name: centos7-vm1
     spec:
       domain:
         cpu:
@@ -393,13 +394,13 @@
       volumes:
         - name: mypvcdisk
           persistentVolumeClaim:
-            claimName: centos7-vm2-disk-pvc
+            claimName: centos7-vm1-disk-pvc
     status: {}
     ---
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      name: centos7-vm2-disk-pvc
+      name: centos7-vm1-disk-pvc
     spec:
       accessModes:
         - ReadWriteOnce
